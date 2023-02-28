@@ -1,0 +1,13 @@
+{
+    "name": "turierik/php_intro",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Tűri Erik",
+            "email": "54734700+turierik@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.21"
+    }
+}
