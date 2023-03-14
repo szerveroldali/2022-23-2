@@ -1,0 +1,17 @@
+USER - pipa
+
+POST
+ - title: string
+ - content: string
+ - date: datetime/timestamp
+ - published: boolean
+ //- author: User <--- na, ez majd ki kell találni hogyan :)
+ - author_id: int
+
+CATEGORY
+ - name: string
+ - color: string (hexa!)
+
+CATEGORY_POST
+ - category_id
+ - post_id
