@@ -2,5 +2,5 @@
 
 | Gyakorlat | Időpont | Helyszín |
 |---|---|---|
-| **Nappali 1. gyakorlat** | Csütörtök 14:00-16:00 | Déli Tömb 2-202 (PC3) |
+| **Nappali 1. gyakorlat** | Csütörtök 14:15-15:45 | Déli Tömb 2-202 (PC3) |
 
