@@ -19,6 +19,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => Str::of(fake()->sentence())->rtrim('.'),
+            'content' => fake()->paragraphs(rand(1,5), true),
         ];
     }
 }
