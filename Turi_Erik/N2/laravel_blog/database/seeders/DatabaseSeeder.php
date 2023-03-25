@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,10 +22,17 @@ class DatabaseSeeder extends Seeder
             ]));
         }
 
+        $posts = collect();
         for ($i = 0; $i < 20; $i++){
-            Post::factory()->create([
+            $p = Post::factory()->create([
                 'author_id' => $users -> random() -> id
             ]);
+            $posts -> add($p -> id);
+        }
+
+        for ($i = 0; $i < 20; $i++){
+            $c = Category::factory()->create();
+            $c -> posts() -> sync( $posts -> random(rand(1, $posts -> count())));
         }
     }
 }
