@@ -1,0 +1,16 @@
+User - done.
+
+Post
+ - title: string
+ - author_id: int
+ - content: string
+ - date: timestamp
+ - published: boolean
+
+Category
+ - name: string
+ - color: string
+
+Category_Post
+ - category_id
+ - post_id
