@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra:wght@400;700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    @apply bg-slate-100 dark:bg-slate-800 text-black dark:text-slate-100;
+}
+
+h1 {
+    @apply text-5xl text-sky-700 dark:text-sky-200;
+    font-family: 'Alkatra', sans-serif;
+}
+
+h2 {
+    @apply text-3xl;
+    font-family: 'Alkatra', sans-serif;
+}
+
+h3 {
+    @apply text-xl;
+    font-family: 'Alkatra', sans-serif;
+}

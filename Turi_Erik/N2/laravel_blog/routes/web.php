@@ -19,7 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
 Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
++ még 5 másik :)
+*/
+
+Route::resource('posts', PostController::class);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
