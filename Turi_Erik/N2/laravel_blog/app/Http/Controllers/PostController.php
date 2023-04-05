@@ -13,7 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('author') -> get();
+        $posts = Post::with('author') -> where('published', '=', true) -> orderByDesc('date') -> paginate(9);
         $categories = Category::all();
         return view('posts.index', ['posts' => $posts, 'categories' => $categories]);
     }
@@ -23,7 +23,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('posts.create', ['categories' => $categories ]);
     }
 
     /**
@@ -31,7 +32,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request -> validate(
+            ['title' => 'required|string|min:3',
+            'content' => 'required',
+            'date' => 'required|date',
+            'cats' => 'nullable|array',
+            'cats.*' => 'integer|distinct|exists:categories,id'
+        ], [
+            'title.required' => 'Kéne cím tesó!'
+        ]);
+
+        $validated['published'] = $request -> has('published');
+        $validated['author_id'] = 4; // TODO!
+
+        $post = Post::create($validated);
+
+        $post -> categories() -> sync($validated['cats'] ?? []);
+
+        return to_route('posts.index');
     }
 
     /**
@@ -39,7 +57,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show', ['post' => $post]);
+        $categories = Category::all();
+        return view('posts.show', ['post' => $post, 'categories' => $categories ]);
     }
 
     /**
@@ -47,7 +66,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        return view('posts.edit', ['post' => $post, 'categories' => $categories ]);
     }
 
     /**
@@ -55,7 +75,24 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request -> validate(
+            ['title' => 'required|string|min:3',
+            'content' => 'required',
+            'date' => 'required|date',
+            'cats' => 'nullable|array',
+            'cats.*' => 'integer|distinct|exists:categories,id'
+        ], [
+            'title.required' => 'Kéne cím tesó!'
+        ]);
+
+        $validated['published'] = $request -> has('published');
+        $validated['author_id'] = 4; // TODO!
+
+        $post -> update($validated);
+
+        $post -> categories() -> sync($validated['cats'] ?? []);
+
+        return to_route('posts.index');
     }
 
     /**
@@ -63,6 +100,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post -> delete();
+        return to_route('posts.index');
     }
 }

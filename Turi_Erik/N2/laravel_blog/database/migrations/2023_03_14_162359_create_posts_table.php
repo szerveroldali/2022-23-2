@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('published');
             //$table->unsignedBigInteger('author_id');
             //$table->foreign('author_id')->references('id')->on('users');
-            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

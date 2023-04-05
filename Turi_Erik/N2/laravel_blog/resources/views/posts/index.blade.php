@@ -14,5 +14,6 @@
         @empty
          @endforelse
     </div>
+    {{ $posts -> links() }}
     
 </x-guest-layout>
