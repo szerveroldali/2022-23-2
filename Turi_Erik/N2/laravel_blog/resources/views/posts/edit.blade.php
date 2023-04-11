@@ -24,7 +24,7 @@
 
         <h2>Kategóriák</h2>
         @foreach($categories as $c)
-        <input type="checkbox" name="cats[]" value="{{ $c -> id }}">{{$c -> name}}<br>
+        <input type="checkbox" name="cats[]" value="{{ $c -> id }}" {{ in_array($c -> id, old('cats', $post -> categories -> pluck('id') -> toArray())) ? 'checked' : '' }}>{{$c -> name}}<br>
         @endforeach
 
         <button type="submit" class="p-2 inline-block bg-sky-900 hover:bg-sky-700 text-white">Mentés</button>

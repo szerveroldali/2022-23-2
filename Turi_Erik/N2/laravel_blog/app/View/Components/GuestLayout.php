@@ -11,7 +11,8 @@ class GuestLayout extends Component
      * Get the view / contents that represents the component.
      */
     public $categories;
-    public function __construct($categories)
+
+    public function __construct($categories = [])
     {
         $this -> categories = $categories;
     }

@@ -19,6 +19,16 @@
             <div class="grid grid-cols-4 gap-6">
                 <div class="col-span-4">
                     <h1 class="text-5xl text-sky-700">Laravel blogocska</h1>
+                    @auth
+                        Üdvözölöm, {{ Auth::user() -> name }}!
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="p-2 inline-block mb-4 bg-red-900 hover:bg-red-700 text-white" type="submit">Kijelentkezés</button>
+                        </form>
+                    @endauth
+                    @guest
+                        Üdvözölöm, Vendég!
+                    @endguest
                 </div>
                 <div class="col-span-4 lg:col-span-3">
                     {{ $slot }}

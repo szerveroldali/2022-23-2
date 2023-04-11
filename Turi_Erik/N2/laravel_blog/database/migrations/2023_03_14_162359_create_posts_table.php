@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('content');
             $table->timestamp('date');
             $table->boolean('published');
+            $table->string('filename')->nullable();
             //$table->unsignedBigInteger('author_id');
             //$table->foreign('author_id')->references('id')->on('users');
             $table->foreignId('author_id')->constrained('users')->onDelete('cascade');

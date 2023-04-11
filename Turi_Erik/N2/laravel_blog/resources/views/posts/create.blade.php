@@ -1,7 +1,7 @@
 <x-guest-layout :categories="$categories">
     <h2>Új bejegyzés</h2>
 
-    <form action="{{ route('posts.store') }}" method="POST">
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         Cím: <input type="text" name="title" value="{{ old('title') }}"><br>
         @error('title')
@@ -20,6 +20,8 @@
         @enderror
 
         Publikálva: <input type="checkbox" name="published"><br>
+
+        Fájl: <input type="file" name="file"><br>
 
         <h2>Kategóriák</h2>
         @foreach($categories as $c)
