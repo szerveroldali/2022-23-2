@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -23,6 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this -> authorize('create', Post::class);
         $categories = Category::all();
         return view('posts.create', ['categories' => $categories]);
     }
@@ -32,6 +37,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this -> authorize('create', Post::class);
         $validated = $request -> validate(
             [
                 'title' => 'required|string|min:3',
@@ -45,9 +51,16 @@ class PostController extends Controller
             ]
         );
         $validated['published'] = $request -> has('published');
-        $validated['author_id'] = 4; //TODO!
+        $validated['author_id'] = Auth::id(); //TODO!
+        if ($request -> hasFile('file')){
+            $file = $request -> file('file');
+            $fname = $file -> hashName();
+            Storage::disk('public') -> put('images/' . $fname, $file -> get());
+            $validated['filename'] = $fname;
+        }
         $post = Post::create($validated);
         $post -> categories() -> sync($validated['cats'] ?? []);
+        Session::flash('post-created');
         return to_route('posts.index');
     }
 
@@ -87,7 +100,6 @@ class PostController extends Controller
             ]
         );
         $validated['published'] = $request -> has('published');
-        $validated['author_id'] = 4; //TODO!
         $post -> update($validated);
         $post -> categories() -> sync($validated['cats'] ?? []);
         return to_route('posts.index');
@@ -98,6 +110,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //if (!Gate::allows('can-delete-post', [ $post ]))
+        //    return abort(403);
+        $this -> authorize('delete', $post);
         $post -> delete();
         return to_route('posts.index');
     }

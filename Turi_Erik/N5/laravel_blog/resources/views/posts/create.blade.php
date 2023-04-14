@@ -2,7 +2,7 @@
 
     <h2>Új bejegyzés</h2>
     
-    <form method="POST" action="{{ route('posts.store') }}">
+    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
     @csrf
     Cím: <input type="text" name="title" value="{{ old('title') }}"><br>
     @error('title')
@@ -21,6 +21,8 @@
     @enderror
 
     Publikálva: <input type="checkbox" name="published"><br>
+
+    Kép: <input type="file" name="file"><br>
 
     <h2>Kategóriák</h2>
     @foreach ($categories as $c)
