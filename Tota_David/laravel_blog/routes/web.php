@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 
@@ -14,9 +16,11 @@ use App\Models\Post;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('home');
+
+Route::get('/', [HomeController::class, 'welcome'])->name('home');
 
 Route::get('/posts', function () {
     // $posts = Post::all();
@@ -41,13 +45,15 @@ Route::get('/posts/x/edit', function () {
 
 // -----------------------------------------
 
-Route::get('/categories/create', function () {
-    return view('categories.create');
-});
+// Route::get('/categories/create', function () {
+//     return view('categories.create');
+// });
 
-Route::get('/categories/x', function () {
-    return view('categories.show');
-});
+// Route::get('/categories/x', function () {
+//     return view('categories.show');
+// });
+
+Route::resource('categories', CategoryController::class);
 
 // -----------------------------------------
 

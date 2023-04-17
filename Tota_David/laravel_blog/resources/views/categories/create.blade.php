@@ -12,12 +12,18 @@
     {{-- TODO: Session flashes --}}
 
     {{-- TODO: action, method --}}
-    <form>
+    <form action="{{ route('categories.store') }}" method="POST">
+        @csrf
 
         <div class="form-group row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name*</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" value="">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}">
+                @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 
@@ -33,6 +39,8 @@
                             id="{{ $style }}"
                             value="{{ $style }}"
                             {{-- TODO: checked --}}
+                            {{-- {{ old('style') == $style ? 'checked' : '' }} --}}
+                            @checked(old('style') == $style)
                         >
                         <label class="form-check-label" for="{{ $style }}">
                             <span class="badge bg-{{ $style }}">{{ $style }}</span>
@@ -41,6 +49,11 @@
                 @endforeach
                 {{-- TODO: Error handling --}}
 
+                @error('style')
+                    <p class="text-danger">
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
         </div>
 
