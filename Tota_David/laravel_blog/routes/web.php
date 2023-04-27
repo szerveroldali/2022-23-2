@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Post;
+
+// use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,40 +21,16 @@ use App\Models\Post;
 //     return view('welcome');
 // })->name('home');
 
-Route::get('/', [HomeController::class, 'welcome'])->name('home');
+// Route::get('/', [HomeController::class, 'welcome'])->name('home');
 
-Route::get('/posts', function () {
-    // $posts = Post::all();
-    return view('posts.index', [
-        // 'teszt' => 1,
-        // 'posts' => Post::all(),
-        'posts' => Post::with('author')->get(),
-    ]);
-});
+// Route::get('/', function () {
+//     return Redirect::route('posts.index');
+// })->name('home');
 
-Route::get('/posts/create', function () {
-    return view('posts.create');
-});
-
-Route::get('/posts/x', function () {
-    return view('posts.show');
-});
-
-Route::get('/posts/x/edit', function () {
-    return view('posts.edit');
-});
-
-// -----------------------------------------
-
-// Route::get('/categories/create', function () {
-//     return view('categories.create');
-// });
-
-// Route::get('/categories/x', function () {
-//     return view('categories.show');
-// });
+Route::redirect('/', '/posts');
 
 Route::resource('categories', CategoryController::class);
+Route::resource('posts', PostController::class);
 
 // -----------------------------------------
 

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $category_count = rand(8, 15);
         $categories = Category::factory($category_count)->create();
         // Legyen 6-7x annyi Post, mint Category
-        $poxsts = Post::factory($category_count * rand(6,7))->create();
+        $posts = Post::factory($category_count * rand(6,7))->create();
 
         $posts->each(function ($post) use (&$users, &$categories, &$category_count) {
             // Random user hozzárendelése a post-hoz, mint szerző

@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('description')->nullable();
             $table->text('content');
             // Author of the post (User model)
             $table->unsignedBigInteger('author_id')->nullable();
+            $table->string('cover_image')->nullable();
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');

@@ -12,9 +12,9 @@
             <div class="float-lg-end">
                 {{-- TODO: Links, policy --}}
 
-                <a href="#" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
+                <a href="{{ route('posts.create') }}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
 
-                <a href="#" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
+                <a href="{{ route('categories.create') }}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
 
             </div>
         </div>
@@ -110,7 +110,7 @@
                             <div class="small">
                                 <ul class="fa-ul">
                                     {{-- TODO: Read stats from DB --}}
-                                    <li><span class="fa-li"><i class="fas fa-user"></i></span>Users: N/A</li>
+                                    <li><span class="fa-li"><i class="fas fa-user"></i></span>Users: {{ $user_count }}</li>
                                     <li><span class="fa-li"><i class="fas fa-layer-group"></i></span>Categories: N/A</li>
                                     <li><span class="fa-li"><i class="fas fa-file-alt"></i></span>Posts: N/A</li>
                                 </ul>
