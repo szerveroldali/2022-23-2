@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db": "npx rimraf database/database.sqlite && npx sequelize db:migrate && npx sequelize db:seed:all"
   },
   "author": "",
   "license": "ISC",
   "keywords": [],
   "description": "",
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "chalk": "^5.2.0",
-    "is-odd-and-even": "^1.0.3"
+    "is-odd-and-even": "^1.0.3",
+    "lodash": "^4.17.21",
+    "rimraf": "^5.0.0",
+    "sequelize": "^6.31.0",
+    "sequelize-cli": "^6.6.0",
+    "sqlite3": "^5.1.6"
   }
 }
