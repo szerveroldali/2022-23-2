@@ -1,0 +1,10 @@
+1. install fastify
+2. konfig
+3. REST API végpont - egymodelles CRUD
+    GET /categories         listázás
+    GET /categories/{id}    egy kategória adatai
+    POST /categories        létrehozás
+    PUT /categories/{id}    módosítás (teljes csere)
+    PATCH /categories/{id}  módosítás (részleges)
+    DELETE /categories/{id} egy kategória törlése
+    DELETE /categories      összes törlése

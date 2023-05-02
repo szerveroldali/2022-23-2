@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "db": "npx rimraf database/database.sqlite && npx sequelize db:migrate && npx sequelize db:seed:all"
+    "db": "npx rimraf database/database.sqlite && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "dev": "npx nodemon -e js,mjs,json,gql server.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,8 +13,10 @@
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
     "chalk": "^5.2.0",
+    "fastify": "^4.17.0",
     "is-odd-and-even": "^1.0.3",
     "lodash": "^4.17.21",
+    "nodemon": "^2.0.22",
     "rimraf": "^5.0.0",
     "sequelize": "^6.31.0",
     "sequelize-cli": "^6.6.0",
