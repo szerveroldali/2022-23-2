@@ -10,6 +10,11 @@
     </div>
 
     {{-- TODO: Session flashes --}}
+    @if (Session::has('category_created'))
+        <div class="alert alert-success" role="alert">
+            Category successfully created with name {{ Session::get('category_created')->name }}
+        </div>
+    @endif
 
     {{-- TODO: action, method --}}
     <form action="{{ route('categories.store') }}" method="POST">

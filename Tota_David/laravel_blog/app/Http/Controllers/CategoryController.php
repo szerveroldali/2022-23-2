@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\Category;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -55,7 +58,11 @@ class CategoryController extends Controller
             )
         );
 
-        // Category::create()
+        $category = Category::create($data);
+
+        Session::flash('category_created', $category);
+
+        return Redirect::route('categories.create');
     }
 
     /**
