@@ -1,0 +1,10 @@
+1. install 
+2. konfig
+3. REST API végpontok - egymodelles CRUD
+    GET /categories         listázás
+    GET /categories/{id}    adott kategória adatai
+    POST /categories        létrehozás
+    PUT /categories/{id}    módosítás (teljes csere)
+    PATCH /categories/{id}  módosítás (részleges)
+    DELETE /categories/{id} adott kategória törlése
+    DELETE /categories      összes törlése
