@@ -21,6 +21,13 @@
     </div>
 
     {{-- TODO: Session flashes --}}
+    @if (Session::has('post_created'))
+        <div class="alert alert-success">
+            Post with title {{ Session::get('post_created')->title }} successfully created
+        </div>
+    @endif
+
+    {{ gettype(Auth::id()) }}
 
     <div class="row mt-3">
         <div class="col-12 col-lg-9">
@@ -31,7 +38,13 @@
                     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-self-stretch">
                         <div class="card w-100">
                             <img
-                                src="{{ asset('images/default_post_cover.jpg') }}"
+                                src="{{
+                                    asset(
+                                        $post->cover_image
+                                            ? 'storage/' . $post->cover_image
+                                            : 'images/default_post_cover.jpg'
+                                    )
+                                }}"
                                 class="card-img-top"
                                 alt="Post cover"
                             >
@@ -43,7 +56,7 @@
                                         <i class="fas fa-user"></i>
                                         {{-- TODO: Author --}}
                                         <span>By {{
-                                            $post->author->name
+                                            $post->author ? $post->author->name : 'Unknown'
                                         }}</span>
                                     </span>
 
@@ -55,15 +68,17 @@
                                 </p>
 
                                 {{-- TODO: Read post categories from DB --}}
-                                @foreach (['primary', 'secondary','danger', 'warning', 'info', 'dark'] as $category)
+                                @foreach ($post->categories as $category)
                                     <a href="#" class="text-decoration-none">
-                                        <span class="badge bg-{{ $category }}">{{ $category }}</span>
+                                        <span class="badge bg-{{ $category->style }}">
+                                            {{ $category->name }}
+                                        </span>
                                     </a>
                                 @endforeach
                             </div>
                             <div class="card-footer">
                                 {{-- TODO: Link --}}
-                                <a href="#" class="btn btn-primary">
+                                <a href="{{ route('posts.show', $post) }}" class="btn btn-primary">
                                     <span>View post</span> <i class="fas fa-angle-right"></i>
                                 </a>
                             </div>
@@ -80,6 +95,7 @@
 
             <div class="d-flex justify-content-center">
                 {{-- TODO: Pagination --}}
+                {{ $posts->links() }}
             </div>
 
         </div>

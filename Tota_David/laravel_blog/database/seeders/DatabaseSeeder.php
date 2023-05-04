@@ -15,11 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(rand(5, 10))->create();
+        // $users = User::factory(rand(5, 10))->create();
+        $users = collect();
+        $user_count = rand(5, 10);
+
+        for ($i = 1; $i <= $user_count; $i++) {
+            $users->add(
+                User::factory()->create([
+                    // uX@szo.hu
+                    'email' => 'u' . $i . '@szo.hu',
+                ])
+            );
+        }
+
         $category_count = rand(8, 15);
         $categories = Category::factory($category_count)->create();
         // Legyen 6-7x annyi Post, mint Category
-        $posts = Post::factory($category_count * rand(6,7))->create();
+        $posts = Post::factory($category_count * rand(2,3))->create();
 
         $posts->each(function ($post) use (&$users, &$categories, &$category_count) {
             // Random user hozzárendelése a post-hoz, mint szerző

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -18,7 +19,8 @@ class PostController extends Controller
     {
         return view('posts.index', [
             // 'posts' => Post::all(),
-            'posts' => Post::with('author')->get(),
+            // 'posts' => Post::with(['author', 'categories'])->get(),
+            'posts' => Post::with(['author', 'categories'])->orderBy('created_at', 'DESC')->paginate(12),
             'user_count' => User::count(),
         ]);
     }
@@ -54,26 +56,32 @@ class PostController extends Controller
         if ($request->hasFile('cover_image')) {
             $file = $request->file('cover_image');
 
-            $cover_image = 'cover_images/' . $file->hashName();
-
             // El kell tárolni a disk-en
-            $file->store($cover_image);
+            $cover_image = $file->store('cover_images', ['disk' => 'public']);
         }
 
         // Post létrehozása + alapadatok
         $post = new Post;
         $post->title = $data['title'];
         $post->description = $data['description'];
-        $post->text = $data['text'];
+        $post->content = $data['text'];
         $post->cover_image = $cover_image;
+
+        $user_id = Auth::id();
+        if ($user_id !== null) {
+            $post->author_id = $user_id;
+        }
+
         $post->save();
 
         // Kategóriák hozzárendelése az előzőleg kreált posthoz
-        $post->categories()->sync($data['categories']);
+        if (isset($data['categories'])) {
+            $post->categories()->sync($data['categories']);
+        }
 
         Session::flash('post_created', $post);
 
-        return Redirect::route('posts.create');
+        return Redirect::route('posts.index');
     }
 
     /**
@@ -81,7 +89,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        return view('posts.show');
+        return view('posts.show', [
+            'post' => Post::find($id),
+        ]);
     }
 
     /**
