@@ -8,4 +8,20 @@
     PATCH /categories/{id}      kat. részleges módosítása
     DELETE /categories          összes kat. törlése
     DELETE /categories/{id}     adott kat. törlése
-    
+------ 1 hét :)
+4. cifra lekérdezések (where)
+    GET /unpublished            nem publikált posztok
+    GET /developers             5-nél kisebb ID-jű userek
+    GET /developers-2           5-nél kisebb, de 2-nél nagyobb ID-jű userek
+    GET /developers-3           páros ID-jű userek, ID szerint visszafelé
+    GET /posts-without-time     posztok lekérése, időbélyegek nélkül
+5. kapcsolatos lekérdezések
+    GET /posts-with-categories   posztok kategóriákkal együtt   
+    GET /posts-with-categories-2 posztok kategóriákkal együtt, kapcsolótábla kiírása nélkül  
+    GET /posts-with-everything   posztok kategóriákkal és szerzővel együtt, kapcsolótábla kiírása nélkül  
+    GET /categories/{id}/posts   egy kategóriába tartozó posztok
+6. hitelesítés
+    elmélet: JWT (jwt.io)
+    POST /login
+    GET /my-posts
+
