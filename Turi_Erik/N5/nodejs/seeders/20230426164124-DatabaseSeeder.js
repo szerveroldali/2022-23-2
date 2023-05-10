@@ -21,7 +21,7 @@ module.exports = {
       posts.push(await Post.create({
         title: faker.lorem.sentence(),
         content: faker.lorem.text(),
-        published: Math.random() < 0.9,
+        published: Math.random() < 0.7,
         authorId: faker.helpers.arrayElement(users).id
       }))
     }
