@@ -259,6 +259,18 @@ fastify.get(
   }
 );
 
+const mercurius = require("mercurius");
+
+const { readFileSync } = require("fs");
+const schema = readFileSync("./graphql/schema.gql").toString();
+const resolvers = require("./graphql/resolvers");
+
+fastify.register(mercurius, {
+  schema,
+  resolvers,
+  graphiql: true,
+});
+
 fastify.listen({ port: 4000 }, (err, address) => {
   if (err) throw err;
 });

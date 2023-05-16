@@ -217,17 +217,33 @@ fastify.post(
     },
   },
   async (request, reply) => {
-    const user = await User.findOne({ where: { email: request.body.email } })
-    if (!user) return reply.status(404).send()
-    reply.send({token: fastify.jwt.sign(user.toJSON()) })
+    const user = await User.findOne({ where: { email: request.body.email } });
+    if (!user) return reply.status(404).send();
+    reply.send({ token: fastify.jwt.sign(user.toJSON()) });
   }
 );
 
-fastify.get('/my-posts', {onRequest: [fastify.auth]}, async (request, reply) => {
-    const user = await User.findByPk(request.user.id)
-    if (!user) return reply.status(404).send()
-    reply.send(await user.getPosts())
-})
+fastify.get(
+  "/my-posts",
+  { onRequest: [fastify.auth] },
+  async (request, reply) => {
+    const user = await User.findByPk(request.user.id);
+    if (!user) return reply.status(404).send();
+    reply.send(await user.getPosts());
+  }
+);
+
+const mercurius = require("mercurius");
+
+const { readFileSync } = require("fs");
+const schema = readFileSync("./graphql/schema.gql").toString();
+const resolvers = require("./graphql/resolvers");
+
+fastify.register(mercurius, {
+  schema,
+  resolvers,
+  graphiql: true,
+});
 
 fastify.listen({ port: 4000 }, (err, address) => {
   if (err) throw err;

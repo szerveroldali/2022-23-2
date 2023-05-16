@@ -1,0 +1,63 @@
+scalar DateTime
+
+type Query {
+    hello(name: String): String!
+    isEven(x: Int!): Boolean!
+    categories: [Category!]!
+    categoryById(id: ID!): Category
+    statistics: Statistics
+}
+
+type Statistics {
+    userCount: Int!
+    postPerUser: Float!
+}
+
+type Mutation {
+    createCategory(name: String!, color: String!): Category
+    createCategory2(input: CreateCategoryInput!): Category
+    createPost(input: CreatePostInput!, cats: [String!]!): Post
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    published: Boolean!
+    authorId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    categories: [Category!]!
+    user: User!
+}
+
+input CreatePostInput {
+    title: String!
+    content: String!
+    published: Boolean!
+    authorId: ID!
+}
+
+type Category {
+    id: ID!
+    name: String!
+    color: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    posts: [Post!]!
+}
+
+
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+input CreateCategoryInput {
+    name: String!
+    color: String!
+}
