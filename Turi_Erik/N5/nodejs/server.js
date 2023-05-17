@@ -192,68 +192,88 @@ fastify.get("/posts-with-categories-2", async (request, reply) => {
 });
 
 fastify.get("/posts-with-everything", async (request, reply) => {
-    reply.send(
-      await Post.findAll({
-        include: [User, { model: Category, through: { attributes: [] } }],
-      })
-    );
-  });
+  reply.send(
+    await Post.findAll({
+      include: [User, { model: Category, through: { attributes: [] } }],
+    })
+  );
+});
 
 fastify.get(
-    "/categories/:id/posts",
-    {
-      schema: {
-        params: {
-          id: {
-            type: "integer",
-          },
+  "/categories/:id/posts",
+  {
+    schema: {
+      params: {
+        id: {
+          type: "integer",
         },
       },
     },
-    async (request, reply) => {
-      const cat = await Category.findByPk(request.params.id);
-      if (cat === null) return reply.status(404).send();
-      reply.send(await cat.getPosts());
-    }
-  );
+  },
+  async (request, reply) => {
+    const cat = await Category.findByPk(request.params.id);
+    if (cat === null) return reply.status(404).send();
+    reply.send(await cat.getPosts());
+  }
+);
 
-fastify.register(require('@fastify/jwt'), {
-    secret: 'supersecret',
-    sign: {
-        expiresIn: '5m'
-    }
-})
+fastify.register(require("@fastify/jwt"), {
+  secret: "supersecret",
+  sign: {
+    expiresIn: "5m",
+  },
+});
 
-fastify.decorate("auth", async function(request, reply) {
-    try {
-      await request.jwtVerify()
-    } catch (err) {
-      reply.send(err)
-    }
-  })
+fastify.decorate("auth", async function (request, reply) {
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
+});
 
-fastify.post("/login", {
+fastify.post(
+  "/login",
+  {
     schema: {
-        body: {
-            type: 'object',
-            required: ['email'],
-            properties: {
-                email: {type: 'string'}
-            }
-        }
-    }
-},
-async (request, reply) => {
-    const user = await User.findOne( { where: { email: request.body.email} } )
+      body: {
+        type: "object",
+        required: ["email"],
+        properties: {
+          email: { type: "string" },
+        },
+      },
+    },
+  },
+  async (request, reply) => {
+    const user = await User.findOne({ where: { email: request.body.email } });
     if (!user) return reply.status(404).send();
-    reply.send({ token: fastify.jwt.sign(user.toJSON()) } )
-})
+    reply.send({ token: fastify.jwt.sign(user.toJSON()) });
+  }
+);
 
-fastify.get('/my-posts', { onRequest: [fastify.auth]}, async (request, reply) => {
+fastify.get(
+  "/my-posts",
+  { onRequest: [fastify.auth] },
+  async (request, reply) => {
     const user = await User.findByPk(request.user.id);
     if (!user) return reply.status(404).send();
-    reply.send(await user.getPosts())
-})
+    reply.send(await user.getPosts());
+  }
+);
+
+const mercurius = require("mercurius");
+const { readFileSync } = require("fs");
+
+const schema = readFileSync("./graphql/schema.gql").toString();
+
+const resolvers = require("./graphql/resolvers");
+
+fastify.register(mercurius, {
+  schema,
+  resolvers,
+  graphiql: true,
+});
 
 fastify.listen({ port: 4000 }, (err, address) => {
   if (err) throw err;
