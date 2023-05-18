@@ -4,7 +4,7 @@ const db = require("../models");
 const { Sequelize, sequelize } = db;
 const { ValidationError, DatabaseError, Op } = Sequelize;
 // TODO: Importáld a modelleket
-// const { /* modellek importálása itt */ } = db;
+const { User, Category, Post } = db;
 
 module.exports = function (fastify, opts, next) {
     // http://127.0.0.1:4000/
@@ -22,6 +22,39 @@ module.exports = function (fastify, opts, next) {
     fastify.get("/auth-protected", { onRequest: [fastify.auth] }, async (request, reply) => {
         reply.send({ user: request.user });
     });
+
+    fastify.get('/categories', async (request, reply) => {
+        reply.send(await Category.findAll());
+    });
+
+    fastify.get(
+        '/categories/:id',
+        {
+            schema: {
+                params: S.object().prop('id', S.integer())
+            },
+        },
+        // {
+        //     schema: {
+        //         params: {
+        //             id: {
+        //                 type: 'integer',
+        //             }
+        //         }
+        //     },
+        // },
+        async (request, reply) => {
+            // console.log(request.params);
+
+            const category = await Category.findByPk(request.params.id);
+
+            if (!category) {
+                return reply.status(404).send();
+            }
+
+            reply.send(category);
+        }
+    );
 
     next();
 };
